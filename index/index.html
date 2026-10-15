@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Freedom Series Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../shared/freedom.css">
+<style>
+/* Direction C, Index: the whole series on one board. A twelve-column grid of tiles, each tile one
+   piece of the material; a slim header with a Menu button opens a full-screen index over it. */
+:root { color-scheme: light; --g: 12px; --pad: clamp(20px, 2.6vw, 36px); }
+body { background: var(--fs-paper-500); }
+
+/* ---------- Header ---------- */
+.c-head { position: sticky; top: calc(var(--g) + env(safe-area-inset-top, 0px)); z-index: 20; display: flex; align-items: center; gap: 16px;
+  margin: var(--g) var(--g) var(--g); padding: 10px 10px 10px clamp(16px, 2vw, 24px); border-radius: var(--radius-lg);
+  background: rgba(255, 253, 250, .9); box-shadow: 0 1px 2px rgba(22, 19, 17, .06), 0 8px 24px rgba(22, 19, 17, .08);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.c-mark { font-family: var(--font-display); font-size: 22px; color: var(--fs-ink-900); text-decoration: none; }
+.c-head__right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.c-back { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; color: var(--fs-ink-700); text-decoration: none; margin-right: 8px; }
+.c-menu-btn { display: inline-flex; align-items: center; gap: 10px; min-height: 42px; padding: 0 20px; border-radius: var(--radius-pill);
+  border: 1px solid var(--fs-ink-900); background: transparent; color: var(--fs-ink-900); font: 600 15px var(--font-body); cursor: pointer; }
+.c-menu-btn:hover { background: var(--fs-ink-900); color: var(--fs-paper-050); }
+.c-menu-btn .bars { width: 16px; height: 8px; border-block: 1.5px solid currentColor; }
+.c-head .fr-btn { min-height: 42px; padding: 0 20px; font-size: 15px; }
+
+/* ---------- Full-screen index ---------- */
+.c-index { position: fixed; inset: 0; z-index: 40; overflow-y: auto; background: var(--fs-cosmos-950); color: var(--fs-star-100);
+  padding: calc(24px + env(safe-area-inset-top, 0px)) clamp(20px, 5vw, 80px) calc(40px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 32px; }
+.c-index__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.c-index__top .c-mark { color: var(--fs-star-100); }
+.c-close { min-height: 42px; padding: 0 20px; border-radius: var(--radius-pill); border: 1px solid rgba(245, 241, 234, .4); background: transparent; color: var(--fs-star-100); font: 600 15px var(--font-body); cursor: pointer; }
+.c-index ol { margin: auto 0; padding: 0; list-style: none; display: flex; flex-direction: column; }
+.c-index li a { display: grid; grid-template-columns: 64px minmax(0, 1fr) minmax(0, 360px); gap: 24px; align-items: baseline; padding: 18px 0;
+  border-top: 1px solid rgba(245, 241, 234, .14); color: var(--fs-star-100); text-decoration: none; }
+.c-index li:last-child a { border-bottom: 1px solid rgba(245, 241, 234, .14); }
+.c-index li a i { font-style: normal; font-family: var(--font-mono); font-size: 13px; color: var(--fs-red-300); }
+.c-index li a b { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.02em; transition: color var(--duration-fast) var(--ease-standard); }
+.c-index li a:hover b { color: var(--fs-gold-300); }
+.c-index li a span { font-size: 15px; line-height: 1.5; color: var(--fs-star-300); }
+.c-index__foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+/* ---------- Board ---------- */
+.c-board { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--g); padding: 0 var(--g) var(--g); }
+.t { position: relative; border-radius: var(--radius-lg); padding: var(--pad); box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; min-width: 0; scroll-margin-top: 80px; }
+.t .t-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-accent); margin: 0; }
+.t-paper { background: var(--fs-paper-050); }
+.t-beige { background: var(--fs-paper-300); }
+.t-night { background: var(--fs-cosmos-950); color: var(--fs-star-100); }
+.t-night .t-label { color: var(--fs-red-300); }
+
+/* Opening tile */
+.t-open { grid-column: span 8; min-height: 600px; overflow: hidden; justify-content: flex-end; color: #fffdfa; background: var(--fs-cosmos-950); }
+.t-open::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(11, 20, 32, .75) 0%, rgba(11, 20, 32, 0) 60%); }
+.t-open > *:not(video) { position: relative; z-index: 1; }
+.t-open .t-label { color: var(--fs-gold-300); }
+.t-open h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 5.4vw, 86px); line-height: 1.04; letter-spacing: -0.02em; text-shadow: var(--shadow-hero-text); }
+.t-open h1 .fr-key { text-shadow: var(--shadow-drop-horizon), var(--shadow-hero-text); }
+.t-open p { margin: 0; max-width: 460px; font-size: 19px; line-height: 1.5; font-weight: 600; text-shadow: var(--shadow-hero-text); }
+.t-open .row { display: flex; gap: 10px; flex-wrap: wrap; }
+.c-light-btn { background: transparent; color: #fffdfa; border-color: rgba(255, 253, 250, .55); }
+
+/* Premise tiles */
+.t-premise { grid-column: span 4; justify-content: space-between; }
+.t-premise h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 2.4vw, 38px); line-height: 1.15; }
+.t-premise p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--fs-ink-700); }
+.t-quote { grid-column: span 3; justify-content: space-between; min-height: 220px; }
+.t-quote p { margin: 0; font-family: var(--font-display); font-size: 19px; line-height: 1.5; }
+.t-quote .mark { font-family: var(--font-display); font-size: 40px; line-height: .6; color: var(--fs-gold-600); }
+
+/* Breakthrough tile */
+.t-align { grid-column: span 12; padding-inline: 0; padding-bottom: 0; gap: 32px; }
+.t-align__copy { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 40px; align-items: end; }
+.t-align .t-label { grid-column: 1 / -1; }
+.t-align h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.6vw, 56px); line-height: 1.1; color: var(--fs-ink-900); }
+.t-align p { margin: 0; font-size: 17px; line-height: 1.7; color: var(--fs-ink-700); }
+.t-align .reach { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+.t-align .reach-wrap { margin-top: -15px; }
+
+/* Series tiles */
+.t-book { grid-column: span 4; align-items: center; justify-content: center; text-align: center; min-height: 520px; }
+.t-book img { width: 78%; height: auto; filter: drop-shadow(0 26px 36px rgba(0, 0, 0, .5)); }
+.t-book h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.2; }
+.t-chapters { grid-column: span 8; }
+.t-chapters__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--g); flex: 1; }
+.t-ch { background: var(--fs-paper-300); border-radius: var(--radius-md); padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+.t-ch i { font-style: normal; font-family: var(--font-mono); font-size: 12px; color: var(--text-accent); }
+.t-ch b { font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.25; }
+.t-ch p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--fs-ink-700); }
+.t-soon { grid-column: span 4; }
+.t-soon__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: auto; }
+.t-soon figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.t-soon img { width: 100%; aspect-ratio: .71; object-fit: cover; border-radius: 3px; filter: saturate(.6); }
+.t-soon figcaption { font-family: var(--font-display); font-size: 13px; line-height: 1.3; }
+
+/* Resource tiles */
+.t-res { grid-column: span 4; padding: 0; overflow: hidden; }
+.t-res img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.t-res__body { padding: 0 var(--pad) var(--pad); display: flex; flex-direction: column; gap: 10px; align-items: flex-start; flex: 1; }
+.t-res h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1.25; }
+.t-res p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--fs-ink-700); }
+.t-res .fr-btn { margin-top: auto; }
+
+/* Follow + colophon tiles */
+.t-follow { grid-column: span 8; background: #ffffff; justify-content: center; }
+.t-follow h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 52px); line-height: 1.1; }
+.t-follow p { margin: 0; color: var(--fs-ink-700); }
+.t-colophon { grid-column: span 4; justify-content: flex-end; gap: 6px; }
+.t-colophon b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.t-colophon span { font-family: var(--font-mono); font-size: 12px; color: var(--fs-star-500); }
+
+@media (max-width: 1080px) {
+  .t-open, .t-premise { grid-column: span 12; }
+  .t-quote { grid-column: span 6; }
+  .t-book { grid-column: span 5; } .t-chapters { grid-column: span 7; }
+  .t-soon, .t-res { grid-column: span 6; }
+  .t-soon { grid-column: span 12; }
+  .t-follow, .t-colophon { grid-column: span 12; }
+}
+@media (max-width: 720px) {
+  .c-board > .t { grid-column: span 12; }
+  .t-open { min-height: 520px; }
+  .t-quote { min-height: 0; }
+  .t-align__copy, .t-chapters__grid { grid-template-columns: minmax(0, 1fr); }
+  .t-align { overflow-x: clip; }
+  .t-align .reach { width: 160%; margin-left: -30%; border-radius: 0; }
+  .t-book { min-height: 0; }
+  .t-book img { width: 60%; }
+  .c-back { display: none; }
+  .c-head .fr-btn { display: none; }
+  .c-index li a { grid-template-columns: 40px minmax(0, 1fr); }
+  .c-index li a span { grid-column: 2; }
+}
+</style>
+</head>
+<body>
+<div class="fr-root">
+<header class="c-head">
+  <a class="c-mark" href="#opening">Freedom Series</a>
+  <div class="c-head__right">
+    <a class="fr-btn fr-btn--primary" href="#series">Buy the book</a>
+    <button class="c-menu-btn" id="c-menu-btn" type="button" aria-expanded="false" aria-controls="c-index"><span class="bars" aria-hidden="true"></span>Menu</button>
+  </div>
+</header>
+
+<div class="c-index" id="c-index" role="dialog" aria-modal="true" aria-label="Index" hidden>
+  <div class="c-index__top"><span class="c-mark">Freedom Series</span><button class="c-close" id="c-close" type="button">Close</button></div>
+  <ol>
+    <li><a href="#premise"><i>01</i><b>The premise</b><span>A guidebook for human emancipation in the age of AGI.</span></a></li>
+    <li><a href="#breakthrough"><i>02</i><b>The breakthrough</b><span>Alignment is the key to humanity's future with AGI.</span></a></li>
+    <li><a href="#series"><i>03</i><b>The series</b><span>Book one in four chapters, three volumes in development.</span></a></li>
+    <li><a href="#deeper"><i>04</i><b>Go deeper</b><span>Ask the book a question, or read Flags of Freedom.</span></a></li>
+    <li><a href="#follow"><i>05</i><b>Follow</b><span>Notes on the next chapters, by email.</span></a></li>
+  </ol>
+  <div class="c-index__foot"><a class="fr-btn fr-btn--primary" href="#series">Buy the book on Amazon</a></div>
+</div>
+
+<main class="c-board">
+
+  <section class="t t-open" id="opening">
+    <video class="media-cover" data-hero autoplay muted loop playsinline preload="auto" poster="../images/hero-sky.webp" aria-hidden="true">
+      <source src="../images/hero.mp4" type="video/mp4"><source src="../images/hero.webm" type="video/webm">
+    </video>
+    <h1>Enter the <span class="fr-key">Freedom</span> Era</h1>
+    <p>Shape humanity's most profound transformation into a world of infinite possibility.</p>
+    <div class="row"><a class="fr-btn fr-btn--primary" href="#series">Buy the book on Amazon</a><a class="fr-btn c-light-btn" href="#series">Read online</a></div>
+  </section>
+
+  <section class="t t-premise t-beige" id="premise">
+    <p class="t-label">The premise</p>
+    <h2>A guidebook for human <span class="fr-key">emancipation</span> in the age of AGI</h2>
+    <p>The Freedom Series charts humanity's next great leap as we cross the threshold into superintelligence. We redefine Freedom not as the absence of constraints, but as a state of infinite agency, a guiding vision for our evolution alongside AGI.</p>
+  </section>
+
+
+  <section class="t t-align texture" id="breakthrough" aria-labelledby="c-align-title">
+    <div class="t-align__copy">
+      <p class="t-label">The breakthrough</p>
+      <h2 id="c-align-title"><span class="fr-key fr-key--rose">Alignment</span> is the key to humanity's future with <span class="fr-key fr-key--horizon">AGI</span></h2>
+      <p>By bridging artificial intelligence with human values, we create a foundation for unprecedented progress while amplifying human agency and purpose. Books One and Two present a framework for aligning superintelligent systems with human values, so technology serves humanity's highest aspirations.</p>
+    </div>
+    <div class="reach-wrap">
+      <span class="reach__ruler reach__ruler--up" aria-hidden="true"></span><span class="reach__ruler reach__ruler--down" aria-hidden="true"></span>
+      <div class="reach" role="img" aria-label="A robotic hand and a human hand reaching toward each other">
+        <img class="reach__l" src="../images/hand-robot.webp" alt=""><img class="reach__r" src="../images/hand-human.webp" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section class="t t-book t-night" id="series">
+    <p class="t-label">The series · Volume I</p>
+    <img src="../images/book-rise.webp" alt="Cover of The Rise of Superintelligence">
+    <h2>The Rise of Superintelligence</h2>
+  </section>
+  <section class="t t-chapters t-paper" aria-label="Chapters of book one">
+    <p class="t-label">Four chapters</p>
+    <div class="t-chapters__grid">
+      <div class="t-ch"><i>01</i><b>The imperative of a shared vision</b><p>To move beyond fear and fantasy, this moment demands a unifying vision that bridges humanity's values with AGI's potential, guiding us toward collective progress.</p></div>
+      <div class="t-ch"><i>02</i><b>The emanation of Freedom</b><p>Freedom isn't just the absence of constraints; it's the expansion of possibility. Freedom empowers AGI to amplify human knowledge, benevolence, power and vitality.</p></div>
+      <div class="t-ch"><i>03</i><b>The Alignment Economy</b><p>By assigning values-based prices to dynamic actions, the Alignment Economy steers collective decision making and AGI action towards ethical and equitable progress.</p></div>
+      <div class="t-ch"><i>04</i><b>An integrated future</b><p>Aligned AGI becomes a seamless part of society, a collaborator and an integral part of human civilization, enhancing collective potential.</p></div>
+    </div>
+  </section>
+
+  <section class="t t-soon t-beige" aria-label="Books in development">
+    <p class="t-label">In development</p>
+    <div class="t-soon__row">
+      <figure><img src="../images/book-engine.webp" alt="Cover of An Engine of Genesis"><figcaption>An Engine of Genesis</figcaption></figure>
+      <figure><img src="../images/book-view.webp" alt="Cover of A View from Within"><figcaption>A View from Within</figcaption></figure>
+      <figure><img src="../images/book-toolkit.webp" alt="Cover of An Artist's Toolkit"><figcaption>An Artist's Toolkit</figcaption></figure>
+    </div>
+  </section>
+  <article class="t t-res t-paper" id="deeper"><img src="../images/card-chatbot.webp" alt=""><div class="t-res__body"><p class="t-label">Go deeper</p><h3>Frequently asked questions chatbot</h3><p>Step into a conversation about the future, shaped by AGI, human creativity and the pursuit of Freedom. Answers are drawn from the text of <em>The Rise of Superintelligence</em>.</p><a class="fr-btn fr-btn--ghost fr-btn--sm" href="#deeper">Got a question? Ask away</a></div></article>
+  <article class="t t-res t-paper"><img src="../images/card-flags.webp" alt=""><div class="t-res__body"><p class="t-label">Go deeper</p><h3>Flags of Freedom</h3><p>Seven lessons from humanity's symbols: flags read not as politics but as archetypal mirrors. Each encodes how a civilization imagines the cosmos, human life and Freedom.</p><a class="fr-btn fr-btn--ghost fr-btn--sm" href="#deeper">Read the essay</a></div></article>
+
+  <section class="t t-follow" id="follow">
+    <h2>Follow the next chapters</h2>
+    <p>Occasional notes on the series and the ideas behind it. No noise.</p>
+    <form class="fr-field" data-subscribe novalidate>
+      <label class="fr-label" for="c-email">Email address</label>
+      <div class="fr-subscribe"><input class="fr-input" id="c-email" type="email" placeholder="you@example.com" autocomplete="email" required><button class="fr-btn fr-btn--primary" type="submit">Follow the series</button></div>
+      <p class="subscribe-note" aria-live="polite"></p>
+    </form>
+  </section>
+  <footer class="t t-colophon t-night"><b>Freedom Series</b><span>San Francisco, CA · Tokyo, Japan</span><span>© 2026 Jad Tarifi. All rights reserved.</span></footer>
+</main>
+
+<script src="../shared/fs.js"></script>
+<script>
+(function () {
+  var menu = document.getElementById('c-index'), open = document.getElementById('c-menu-btn'), close = document.getElementById('c-close');
+  function show() { menu.hidden = false; open.setAttribute('aria-expanded', 'true'); document.documentElement.style.overflow = 'hidden'; close.focus(); }
+  function hide() { menu.hidden = true; open.setAttribute('aria-expanded', 'false'); document.documentElement.style.overflow = ''; open.focus(); }
+  open.addEventListener('click', show);
+  close.addEventListener('click', hide);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) hide(); });
+  menu.querySelectorAll('ol a, .fr-btn').forEach(function (a) { a.addEventListener('click', function () { menu.hidden = true; open.setAttribute('aria-expanded', 'false'); document.documentElement.style.overflow = ''; }); });
+})();
+</script>
+</div>
+</body>
+</html>
