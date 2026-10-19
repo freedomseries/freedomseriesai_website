@@ -8,7 +8,6 @@ Three design directions for the new Freedom Series site, built on the Freedom de
 | `homepage/` | **Homepage**: the current site rebuilt as one scrolling page about the book |
 | `index/` | **Index**: the same material as a board of tiles, with a full-screen menu |
 | `hub/` | **Hub**: a home for all Freedom resources, labelled and filtered by the four pillars of Freedom |
-| `resources/` | **Resources**: a password-protected hub of essays, each with a short video (hover to preview, click to watch with sound). Password: `creativeagi` |
 | `shared/` | `freedom.css` (design-system tokens and components) and `fs.js` (hero video, the reaching hands, signup) used by Index and Hub |
 | `images/` | Images and the hero video, shared by every page |
 | `thumbs/` | Screenshots used on the share page |
