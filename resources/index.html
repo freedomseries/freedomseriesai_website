@@ -281,7 +281,14 @@
   (function () {
     var ns = window.SuperintelligenceFoundryDesignSystem_07c936;
     if (!ns || !ns.Starfield || !window.ReactDOM) return;
-    ReactDOM.createRoot(document.getElementById('starfield')).render(React.createElement(ns.Starfield));
+    var root = ReactDOM.createRoot(document.getElementById('starfield'));
+    function paint() {
+      var tone = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      root.render(React.createElement(ns.Starfield, { tone: tone }));
+    }
+    paint();
+    // follow the theme switch
+    new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();
 </script>
 </body>

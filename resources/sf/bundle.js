@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"SuperintelligenceFoundryDesignSystem_07c936","components":[{"name":"Starfield","sourcePath":"components/brand/Starfield.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Tooltip","sourcePath":"components/feedback/Tooltip.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"NavLink","sourcePath":"components/navigation/NavLink.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"}],"sourceHashes":{"components/brand/Starfield.jsx":"b0590561c756","components/core/Badge.jsx":"e1e2f8d561f4","components/core/Button.jsx":"b97fc313228e","components/core/Card.jsx":"703d947fa9c2","components/core/IconButton.jsx":"b82bd3733a51","components/core/Tag.jsx":"14211cbdc661","components/feedback/Dialog.jsx":"0fa311bb4a97","components/feedback/Toast.jsx":"f1cfbf68f049","components/feedback/Tooltip.jsx":"8e65d1516453","components/forms/Checkbox.jsx":"20b9eb5d6193","components/forms/Input.jsx":"e67b7df2e770","components/forms/Radio.jsx":"8854594e71ca","components/forms/Select.jsx":"05eba5f3bc83","components/forms/Switch.jsx":"41abc1586efb","components/navigation/NavLink.jsx":"c83da45a032d","components/navigation/Tabs.jsx":"94d2d3f83dc5","ui_kits/marketing/Chapters.jsx":"c3334762ea3a","ui_kits/marketing/Curtain.jsx":"210c6c0f25d5","ui_kits/marketing/LoopDiagram.jsx":"161d5abc56e7","ui_kits/marketing/Shell.jsx":"43ff63e94956"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"SuperintelligenceFoundryDesignSystem_07c936","components":[{"name":"Starfield","sourcePath":"components/brand/Starfield.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Tooltip","sourcePath":"components/feedback/Tooltip.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"NavLink","sourcePath":"components/navigation/NavLink.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"}],"sourceHashes":{"components/brand/Starfield.jsx":"a1be96c75239","components/core/Badge.jsx":"e1e2f8d561f4","components/core/Button.jsx":"b97fc313228e","components/core/Card.jsx":"703d947fa9c2","components/core/IconButton.jsx":"b82bd3733a51","components/core/Tag.jsx":"14211cbdc661","components/feedback/Dialog.jsx":"0fa311bb4a97","components/feedback/Toast.jsx":"f1cfbf68f049","components/feedback/Tooltip.jsx":"8e65d1516453","components/forms/Checkbox.jsx":"20b9eb5d6193","components/forms/Input.jsx":"e67b7df2e770","components/forms/Radio.jsx":"8854594e71ca","components/forms/Select.jsx":"05eba5f3bc83","components/forms/Switch.jsx":"41abc1586efb","components/navigation/NavLink.jsx":"c83da45a032d","components/navigation/Tabs.jsx":"94d2d3f83dc5","ui_kits/marketing/Chapters.jsx":"c3334762ea3a","ui_kits/marketing/Curtain.jsx":"210c6c0f25d5","ui_kits/marketing/LoopDiagram.jsx":"161d5abc56e7","ui_kits/marketing/Shell.jsx":"43ff63e94956"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -17,11 +17,15 @@ const {
 // idle float. No scroll coupling, no forward dolly, no zoom-streaks.
 function Starfield({
   density = 1,
-  background = 'var(--surface-app, #F3EFE8)',
+  tone = 'light',
+  background,
   drift = true,
   children
 }) {
   const canvasRef = useRef(null);
+  const dark = tone === 'dark';
+  // dark: the original dark-site field — warm off-white stars on surface-inverse
+  const ground = background ?? (dark ? 'var(--surface-inverse, #161311)' : 'var(--surface-app, #F3EFE8)');
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -57,7 +61,11 @@ function Starfield({
           const r = size[0] + rnd() * (size[1] - size[0]);
           const a = alpha[0] + rnd() * (alpha[1] - alpha[0]);
           const hue = rnd();
-          const col = hue > 0.87 ? '58,103,175' : hue > 0.76 ? '232,112,58' : hue > 0.68 ? '122,148,72' : '60,54,48';
+          const col = dark
+            ? (hue > 0.80 ? (rnd() < 0.5 ? '91,143,219' : '138,176,232') : hue > 0.60 ? (rnd() < 0.5 ? '242,137,79' : '247,168,118') : hue > 0.48 ? (rnd() < 0.5 ? '155,179,101' : '185,204,141') : '245,243,238')
+            : (hue > 0.80 ? (rnd() < 0.5 ? '47,111,204' : '36,86,160') : hue > 0.60 ? (rnd() < 0.5 ? '232,112,58' : '194,79,26') : hue > 0.48 ? (rnd() < 0.5 ? '122,148,72' : '86,107,54') : '60,54,48');
+          // on paper the accent stars carry the colour: brighter than the ink ones
+          const aa = (!dark && col !== '60,54,48') ? Math.min(1, a * 1.35) : a;
           // wrap-drawn in all nine positions so the repeating tile has no seam
           const R = r * 2.2;
           for (const ox of [-W, 0, W]) for (const oy of [-H, 0, H]) {
@@ -65,8 +73,8 @@ function Starfield({
               cy = y + oy;
             if (cx < -R || cx > W + R || cy < -R || cy > H + R) continue;
             const grad = g.createRadialGradient(cx, cy, 0, cx, cy, R);
-            grad.addColorStop(0, 'rgba(' + col + ',' + a.toFixed(3) + ')');
-            grad.addColorStop(0.45, 'rgba(' + col + ',' + (a * 0.45).toFixed(3) + ')');
+            grad.addColorStop(0, 'rgba(' + col + ',' + aa.toFixed(3) + ')');
+            grad.addColorStop(0.45, 'rgba(' + col + ',' + (aa * 0.45).toFixed(3) + ')');
             grad.addColorStop(1, 'rgba(' + col + ',0)');
             g.fillStyle = grad;
             g.beginPath();
@@ -128,13 +136,13 @@ function Starfield({
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [density, drift]);
+  }, [density, drift, tone]);
   return React.createElement('div', {
     style: {
       position: 'relative',
       width: '100%',
       height: '100%',
-      background,
+      background: ground,
       overflow: 'hidden'
     }
   }, React.createElement('canvas', {
