@@ -1,21 +1,27 @@
-# Freedom Series — site directions
+# Freedom Series — website
 
-Three design directions for the new Freedom Series site, built on the Freedom design system, plus a page that introduces them.
+The live site is the homepage at the root: a static copy of the freedomseries.ai Wix homepage,
+built from Wix's own page structure and styles so desktop, tablet and phone layouts match the
+Wix site. No build step; plain HTML, CSS and a small script.
 
 | Path | What it is |
 | --- | --- |
-| `index.html` | Share page: the three directions with a short description of each |
-| `homepage/` | **Homepage**: the current site rebuilt as one scrolling page about the book |
-| `index/` | **Index**: the same material as a board of tiles, with a full-screen menu |
-| `hub/` | **Hub**: a home for all Freedom resources, labelled and filtered by the four pillars of Freedom |
-| `shared/` | `freedom.css` (design-system tokens and components) and `fs.js` (hero video, the reaching hands, signup) used by Index and Hub |
-| `images/` | Images and the hero video, shared by every page |
-| `thumbs/` | Screenshots used on the share page |
+| `index.html` | **Homepage** (copy of freedomseries.ai) |
+| `book.html` | The 3D book that opens on hover, framed by the homepage |
+| `theriseofsuperintelligence/` | **Read Online**: the Heyzine flipbook, same URL path as on Wix |
+| `riseofsi/` | Forwards to the book on Amazon, as the Wix redirect did |
+| `img/`, `fonts/` | Images, videos and fonts for the pages above |
+| `redesign/` | Share page for the three redesign directions (was the root page) |
+| `homepage/`, `index/`, `hub/` | The three redesign directions, built on the Freedom design system |
+| `shared/`, `images/`, `thumbs/` | Files used by the redesign directions |
 
-## Viewing
+## Publish on GitHub Pages
 
-These are static pages with no build step. Open `index.html` through any static server (for example `python3 -m http.server` in this folder), or turn on GitHub Pages for the `main` branch.
+Settings → Pages → Build and deployment → Source: **Deploy from a branch**, Branch: **main**, folder **/ (root)**.
 
-## Status
+## Still on Wix
 
-These are previews. The buy links, the "Ask the book" chatbot and the newsletter signup are not connected yet. In the Hub, the pillar labels on each resource are suggestions to confirm, and "The Atlas of Freedom" and "A future essay" are placeholders.
+"Got a Question? Ask Away!" (the chatbot) and "Explore our Interactive Playground" (Flags of
+Freedom) still link to freedomseries.ai. Move those pages before pointing the domain here. The
+chatbot's answers come from code on Wix's servers, so it also needs a new backend.
+The past events on the homepage are greyed out and have no links.

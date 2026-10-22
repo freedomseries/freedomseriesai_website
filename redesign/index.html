@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Freedom Site Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Share page: three site directions side by side on warm paper, each shown at desktop and phone width,
+   with a short description and one link out. Single-theme (the Freedom Daylight palette); every colour explicit. */
+:root { --paper: #fbf8f3; --paper-2: #f3efe8; --ink: #161311; --ink-2: #3d3833; --ink-3: #6b625a; --accent: #a82418; --night: #0b1420; --gold: #fcc230; --focus: #3881a4;
+  --display: 'Libre Baskerville', Baskerville, Georgia, serif; --body: 'Archivo', 'Helvetica Neue', Arial, sans-serif; --mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 48px); padding-block: clamp(40px, 6vw, 80px); display: flex; flex-direction: column; gap: 48px; }
+.head { display: flex; flex-direction: column; gap: 16px; max-width: 760px; }
+.eyebrow { margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(38px, 5vw, 62px); line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
+.head p { margin: 0; font-size: 18px; line-height: 1.65; color: var(--ink-2); max-width: 64ch; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+.dir { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.shots { position: relative; display: block; padding: 0 26px 26px 0; text-decoration: none; }
+.shots .desk { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; box-shadow: 0 1px 2px rgba(22, 19, 17, .1), 0 12px 32px rgba(22, 19, 17, .12); }
+.shots .phone { position: absolute; right: 0; bottom: 0; width: 25%; height: auto; aspect-ratio: 260 / 563; object-fit: cover; border-radius: 12px; border: 4px solid var(--night); box-shadow: 0 12px 28px rgba(22, 19, 17, .25); }
+.shots:hover .desk { box-shadow: 0 0 0 3px var(--gold), 0 12px 32px rgba(22, 19, 17, .16); }
+.dir h2 { margin: 0; display: flex; align-items: baseline; gap: 12px; font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.2; }
+.dir h2 span { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: .08em; }
+.dir p { margin: 0 0 8px; font-size: 16px; line-height: 1.6; color: var(--ink-2); }
+.open { align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 24px; border-radius: 100px; background: var(--night); color: var(--paper); font-weight: 600; font-size: 15px; text-decoration: none; }
+.open:hover { background: #1b2a44; }
+.open:focus-visible, .shots:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+@media (max-width: 1000px) { .grid { grid-template-columns: minmax(0, 1fr); max-width: 640px; } @media (max-width: 560px) { </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <p class="eyebrow">Freedom Series · site directions</p>
+    <h1>Three directions for the new Freedom Series site</h1>
+    <p>All three are built on the Freedom design system with the same material. They differ in what the site is for and how people move through it. Open each one and scroll it on desktop and on your phone.</p>
+  </header>
+
+  <div class="grid">
+    <article class="dir">
+      <a class="shots" href="../homepage/" aria-label="Open the Homepage direction"><img class="desk" src="../thumbs/homepage.webp" alt="The Homepage direction at desktop width"><img class="phone" src="../thumbs/homepage-phone.webp" alt="The Homepage direction at phone width"></a>
+      <h2><span>1</span>Homepage</h2>
+      <p>The current site rebuilt as one scrolling page about the book, from the premise and the reaching hands to the chapters and signup.</p>
+      <a class="open" href="../homepage/">Open Homepage</a>
+    </article>
+
+    <article class="dir">
+      <a class="shots" href="../index/" aria-label="Open the Index direction"><img class="desk" src="../thumbs/index.webp" alt="The Index direction at desktop width"><img class="phone" src="../thumbs/index-phone.webp" alt="The Index direction at phone width"></a>
+      <h2><span>2</span>Index</h2>
+      <p>The same material laid out as a board of tiles, so most of it is visible at once, with a full-screen menu.</p>
+      <a class="open" href="../index/">Open Index</a>
+    </article>
+
+    <article class="dir">
+      <a class="shots" href="../hub/" aria-label="Open the Hub direction"><img class="desk" src="../thumbs/hub.webp" alt="The Hub direction at desktop width"><img class="phone" src="../thumbs/hub-phone.webp" alt="The Hub direction at phone width"></a>
+      <h2><span>3</span>Hub</h2>
+      <p>A home for every Freedom resource, not only the book, in a library you can filter by the four pillars of Freedom.</p>
+      <a class="open" href="../hub/">Open Hub</a>
+    </article>
+  </div>
+
+
+</div>
+</body>
+</html>

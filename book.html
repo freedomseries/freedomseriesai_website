@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+<title>Book</title>
+<style>
+/* Port of the Wix HTML embed "rise_component" (3D hardcover that opens on hover). */
+/* Same colour scheme as the page that frames it, or browsers paint the frame opaque white. */
+:root{color-scheme:light}
+html,body{background:transparent}
+body{margin:8px}
+::before,::after{content:""}
+ul{margin:0;padding:0;list-style:none}
+.align{clear:both;margin:90px auto 20px;width:100%;max-width:1170px;display:flex;justify-content:flex-end}
+.align>li{width:500px;min-height:300px;display:inline-block;margin:30px 20px 30px 30px;padding:0 0 0 150px;vertical-align:top}
+.book{position:relative;width:360px;height:500px;perspective:1000px;transform-style:preserve-3d}
+.hardcover_front li:first-child{background-color:#eee;backface-visibility:hidden}
+.hardcover_front li:last-child{background:#fffbec}
+.hardcover_back li:first-child{background:#fffbec}
+.hardcover_back li:last-child{background:#fffbec}
+.book_spine li:first-child{background:#eee}
+.book_spine li:last-child{background:#333}
+.hardcover_front li:first-child:after,.hardcover_front li:first-child:before,.hardcover_front li:last-child:after,.hardcover_front li:last-child:before,.hardcover_back li:first-child:after,.hardcover_back li:first-child:before,.hardcover_back li:last-child:after,.hardcover_back li:last-child:before,.book_spine li:first-child:after,.book_spine li:first-child:before,.book_spine li:last-child:after,.book_spine li:last-child:before{background:#95c3e7;width:8px}
+.page>li{background:linear-gradient(to right,#e1ddd8 0%,#fffbf6 100%);box-shadow:inset 0 -1px 2px rgba(50,50,50,.1),inset -1px 0 1px rgba(150,150,150,.2);border-radius:0 5px 5px 0}
+.hardcover_front{transform:rotateY(-34deg) translateZ(8px);z-index:100}
+.hardcover_back{transform:rotateY(-15deg) translateZ(-8px)}
+.page li:nth-child(1){transform:rotateY(-28deg)}
+.page li:nth-child(2){transform:rotateY(-30deg)}
+.page li:nth-child(3){transform:rotateY(-32deg)}
+.page li:nth-child(4){transform:rotateY(-34deg)}
+.page li:nth-child(5){transform:rotateY(-36deg)}
+.page{width:100%;height:98%;top:1%;right:3%}
+.hardcover_front,.hardcover_back,.book_spine,.hardcover_front li,.hardcover_back li,.book_spine li{position:absolute;top:0;left:0;width:100%;height:100%;transform-style:preserve-3d}
+.hardcover_front,.hardcover_back{transform-origin:0% 100%}
+.hardcover_front{transition:all .8s ease,z-index .6s}
+.hardcover_front li:first-child{cursor:default;user-select:none;transform:translateZ(2px)}
+.hardcover_front li:last-child{transform:rotateY(180deg) translateZ(2px)}
+.hardcover_back li:first-child{transform:translateZ(2px)}
+.hardcover_back li:last-child{transform:translateZ(-2px)}
+.hardcover_front li:first-child:after,.hardcover_front li:first-child:before,.hardcover_front li:last-child:after,.hardcover_front li:last-child:before,.hardcover_back li:first-child:after,.hardcover_back li:first-child:before,.hardcover_back li:last-child:after,.hardcover_back li:last-child:before,.book_spine li:first-child:after,.book_spine li:first-child:before,.book_spine li:last-child:after,.book_spine li:last-child:before{position:absolute;top:0;left:0}
+.hardcover_front li:first-child:after,.hardcover_front li:first-child:before{width:4px;height:100%}
+.hardcover_front li:first-child:after{transform:rotateY(90deg) translateZ(-2px) translateX(2px)}
+.hardcover_front li:first-child:before{transform:rotateY(90deg) translateZ(158px) translateX(2px)}
+.hardcover_front li:last-child:before{width:4px;height:360px}
+.hardcover_front li:last-child:after{transform:rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(-2px) translateY(-78px)}
+.hardcover_front li:last-child:before{box-shadow:0 0 70px 5px #666;transform:rotateX(90deg) rotateZ(90deg) translateZ(-320px) translateX(-2px) translateY(-180px)}
+.hardcover_back li:first-child:after,.hardcover_back li:first-child:before{width:4px;height:100%}
+.hardcover_back li:first-child:after{transform:rotateY(90deg) translateZ(-2px) translateX(2px)}
+.hardcover_back li:first-child:before{transform:rotateY(90deg) translateZ(158px) translateX(2px)}
+.hardcover_back li:last-child:after{width:4px;height:160px}
+.hardcover_back li:last-child:before{width:4px;height:360px}
+.hardcover_back li:last-child:after{transform:rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(2px) translateY(-78px)}
+.hardcover_back li:last-child:before{box-shadow:0 0 70px 5px #666;transform:rotateX(90deg) rotateZ(90deg) translateZ(-320px) translateX(-2px) translateY(-170px)}
+.book_spine{transform:rotateY(60deg) translateX(-5px) translateZ(-12px);width:16px;z-index:0}
+.book_spine li:first-child{transform:translateZ(2px)}
+.book_spine li:last-child{transform:translateZ(-2px)}
+.book_spine li:first-child:after,.book_spine li:first-child:before{width:4px;height:100%}
+.book_spine li:first-child:after{transform:rotateY(90deg) translateZ(-2px) translateX(2px)}
+.book_spine li:first-child:before{transform:rotateY(-90deg) translateZ(-12px)}
+.book_spine li:last-child:after,.book_spine li:last-child:before{width:4px;height:16px}
+.book_spine li:last-child:after{transform:rotateX(90deg) rotateZ(90deg) translateZ(8px) translateX(2px) translateY(-6px)}
+.book_spine li:last-child:before{box-shadow:5px -1px 100px 20px rgba(0,0,0,.2);transform:rotateX(90deg) rotateZ(90deg) translateZ(-490px) translateX(3px) translateY(-6px)}
+.page,.page>li{position:absolute;top:0;left:0;transform-style:preserve-3d}
+.page{width:99%;height:98%;top:1%;left:3%;z-index:10}
+.page>li{width:100%;height:100%;transform-origin:left center;transition-property:transform;transition-timing-function:ease}
+.page>li:nth-child(1){transition-duration:.6s}
+.page>li:nth-child(2){transition-duration:.6s}
+.page>li:nth-child(3){transition-duration:.4s}
+.page>li:nth-child(4){transition-duration:.5s}
+.page>li:nth-child(5){transition-duration:.6s}
+.book:hover>.hardcover_front{transform:rotateY(-145deg) translateZ(0);z-index:0}
+.book:hover>.page li:nth-child(1){transform:rotateY(-30deg);transition-duration:1.5s}
+.book:hover>.page li:nth-child(2){transform:rotateY(-35deg);transition-duration:1.8s}
+.book:hover>.page li:nth-child(3){transform:rotateY(-118deg);transition-duration:1.6s}
+.book:hover>.page li:nth-child(4){transform:rotateY(-130deg);transition-duration:1.4s}
+.book:hover>.page li:nth-child(5){transform:rotateY(-140deg);transition-duration:1.2s}
+.coverDesign{position:absolute;top:0;left:0;bottom:0;right:0;overflow:hidden;backface-visibility:hidden}
+.coverDesign::after{background-image:linear-gradient(-135deg,rgba(255,255,255,.45) 0%,transparent 100%);position:absolute;top:0;left:0;bottom:0;right:0}
+.blue{background-color:#3498db}
+</style></head>
+<body>
+<div class="rise_component">
+  <ul class="align">
+    <li>
+      <figure class="book">
+        <ul class="hardcover_front">
+          <li><div class="coverDesign blue"><img src="img/book-cover.webp" alt="The Rise of Superintelligence" width="360"><br></div></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <ul class="page">
+          <li></li>
+          <li><img src="img/book-page-5.webp" alt="" width="355" height="490" style="transform: translateZ(.1px);"></li>
+          <li><img src="img/book-page-3.webp" alt="" width="355" height="490" style="transform: translateZ(.1px);"><img src="img/book-page-4.webp" alt="" width="355" height="490" style="position: absolute; transform: translateZ(-.1px) translateX(-355px) rotateY(180deg)"></li>
+          <li><img src="img/book-page-1.webp" alt="" width="355" height="490" style="transform: translateZ(.1px);"><img src="img/book-page-2.webp" alt="" width="355" height="490" style="position: absolute; transform: translateZ(-.1px) translateX(-355px) rotateY(180deg)"></li>
+        </ul>
+        <ul class="hardcover_back"><li></li><li></li></ul>
+        <ul class="book_spine"><li></li><li></li></ul>
+      </figure>
+    </li>
+  </ul>
+</div>
+</body></html>

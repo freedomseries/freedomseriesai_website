@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read Online | Freedom Series</title>
+<meta name="description" content="Read The Rise of Superintelligence online.">
+<style>
+/* Copy of freedomseries.ai/theriseofsuperintelligence: one section holding the Heyzine flipbook.
+   Section heights follow Wix's layout: a fixed share of the page width per breakpoint,
+   capped at Wix's 1600px section width. */
+:root{color-scheme:light;--w:min(100vw,1600px)}
+html,body{margin:0;padding:0;background:#fff}
+.sec{position:relative;width:100%}
+.sec.desktop{height:max(.5px,calc(.6414062 * var(--w)))}
+.sec.mobile{display:none;height:max(.5px,calc(1.6471564 * var(--w)))}
+@media screen and (min-width:320px) and (max-width:1000px){
+  .sec.desktop{height:max(.5px,calc(.9070234 * var(--w)))}
+}
+@media screen and (min-width:320px) and (max-width:750px){
+  .sec.desktop{display:none}
+  .sec.mobile{display:block}
+}
+/* Wix's HTML embed: a frame filling the section whose page has the default 8px body margin */
+.embed{position:absolute;inset:0;padding:8px;overflow:hidden;box-sizing:border-box}
+.embed iframe{display:block;border:0;width:100%}
+.desktop iframe{height:600px}
+.mobile iframe{height:700px}
+</style>
+<script>
+// Wix sizes sections from the page width without the scrollbar.
+(function(){var r=document.documentElement;function s(){r.style.setProperty('--w',Math.min(r.clientWidth,1600)+'px')}s();addEventListener('resize',s)})();
+</script>
+</head>
+<body>
+<main>
+  <section class="sec desktop" aria-label="Read The Rise of Superintelligence">
+    <div class="embed"><iframe class="fp-iframe" src="https://heyzine.com/flip-book/0068869c8c.html" title="The Rise of Superintelligence — flipbook" allowfullscreen allow="clipboard-write" scrolling="no"></iframe></div>
+  </section>
+  <section class="sec mobile" aria-label="Read The Rise of Superintelligence">
+    <div class="embed"><iframe class="fp-iframe" src="https://heyzine.com/flip-book/0068869c8c.html" title="The Rise of Superintelligence — flipbook" allowfullscreen allow="clipboard-write" scrolling="no" loading="lazy"></iframe></div>
+  </section>
+</main>
+</body>
+</html>
