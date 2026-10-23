@@ -570,7 +570,16 @@ wix-bg-image{display:block}
 [data-unavailable] .wixui-button__label{color:#6f6f6f!important}
 /* Resources: keep some space under the buttons when the section gets tight (around 1000px and 750px wide). */
 #comp-mgqdkk0e{padding-bottom:48px}
-</style></head>
+</style><style>
+/* A visible way back to the homepage (the site has no header nav). */
+.fs-home{position:absolute;top:24px;right:24px;z-index:60;pointer-events:auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;box-sizing:border-box;padding:0 18px 0 14px;border:1px solid rgba(255,255,255,.55);border-radius:100px;background:rgba(11,20,32,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#fff;font:15px/1 wfont_de38b1_f09d0793bdf84a0591e0f42e0104a698,wf_f09d0793bdf84a0591e0f42e0,orig_geomanist_regular_webfont,sans-serif;text-decoration:none;transition:background-color .2s ease}
+.fs-home:hover{background:rgba(11,20,32,.88);color:#fff}
+.fs-home:focus-visible{outline:3px solid #fcc230;outline-offset:2px}
+.fs-home svg{width:16px;height:16px;flex:none}
+@media (max-width:750px){.fs-home{top:16px;right:16px}}
+.fs-home{position:fixed}
+</style>
+</head>
 <body class="responsive">
 <!--pageHtmlEmbeds.bodyStart start-->
 <!--pageHtmlEmbeds.bodyStart end-->
@@ -733,4 +742,4 @@ wix-bg-image{display:block}
     });
   });
 })();
-</script></body></html>
+</script><a class="fs-home" href="../"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Home</a></body></html>
