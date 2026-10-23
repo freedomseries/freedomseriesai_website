@@ -21,7 +21,7 @@ Settings → Pages → Build and deployment → Source: **Deploy from a branch**
 
 ## Still on Wix
 
-"Got a Question? Ask Away!" (the chatbot) and "Explore our Interactive Playground" (Flags of
-Freedom) still link to freedomseries.ai. Move those pages before pointing the domain here. The
-chatbot's answers come from code on Wix's servers, so it also needs a new backend.
+"Explore our Interactive Playground" (Flags of Freedom) still links to freedomseries.ai; move that
+page before pointing the domain here. The chatbot button is greyed out and reads "Currently
+unavailable": its answers came from code on Wix's servers, so it needs a new backend first.
 The past events on the homepage are greyed out and have no links.
