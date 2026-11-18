@@ -79,6 +79,7 @@ ul{margin:0;padding:0;list-style:none}
 @media (max-width:600px){
 body{margin:0}
 .align{margin:48px 0 0;justify-content:center}
+.book{perspective:1600px}
 .align>li{width:360px;min-height:0;margin:0;padding:0;transform:translateX(-14px) scale(.76);transform-origin:top center}
 .book:hover>.hardcover_front{transform:rotateY(-34deg) translateZ(8px);z-index:100}
 .book:hover>.page li:nth-child(1){transform:rotateY(-28deg)}
@@ -114,7 +115,8 @@ body{margin:0}
 </div>
 <script>
 /* Phone frames: open the book as it scrolls through the screen (hover opens it on desktop),
-   shrinking it and sliding it right as it opens so the open cover stays in the frame. */
+   sliding it so the open spread is centred on screen. The open spread is wider than a phone,
+   so its outer edges run off the sides. */
 (function () {
   'use strict';
   var host = window.frameElement, par = window.parent;
@@ -123,7 +125,7 @@ body{margin:0}
   var item = document.querySelector('.align>li'), front = document.querySelector('.hardcover_front');
   var pages = [].slice.call(document.querySelectorAll('.page>li'));
   var PAGE = [[-28, -30, 0], [-30, -35, 0], [-32, -118, 0.2], [-34, -130, 0.1]]; // closed, open, delay
-  var OPEN_W = 790, OPEN_SHIFT = 189; // open book's width, and how far its middle sits left of the closed one's (at scale 1)
+  var OPEN_SCALE = 0.88; // the open book's size relative to the closed one
   var els = [item, front].concat(pages);
   function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
   function ease(x) { return x * x * (3 - 2 * x); }
@@ -137,9 +139,10 @@ body{margin:0}
     }
     var vh = par.innerHeight, top = host.getBoundingClientRect().top;
     var p = reduce.matches ? 0 : clamp((0.62 * vh - top) / (0.45 * vh));
-    var w = innerWidth, s0 = w > 410 ? 0.8 : w > 395 ? 0.76 : w > 380 ? 0.72 : w > 359 ? 0.7 : 0.62, s1 = Math.min(s0, (w - 24) / OPEN_W);
-    var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.35)), s = s0 + (s1 - s0) * ps; // shrink toward the bottom (keeps the gap to the text) and slide, before the cover swings out
-    item.style.transform = 'translate(' + (-14 + OPEN_SHIFT * s * ps).toFixed(1) + 'px,' + (500 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+    var w = innerWidth, s0 = w > 410 ? 0.8 : w > 395 ? 0.76 : w > 380 ? 0.72 : w > 359 ? 0.7 : 0.62, vw = par.innerWidth, s1 = s0 * OPEN_SCALE;
+    var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.35)), s = s0 + (s1 - s0) * ps; // shrink (toward the bottom, keeping the gap to the text) and slide, before the cover swings out
+    var tx = -14 * (1 - ps) + (vw / 2 - w / 2 + 130 * s) * ps; // closed: optically centred; open: the two text pages centred on screen (the book sits 40px into its item)
+    item.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + (500 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
     front.style.transform = 'rotateY(' + (-34 - 111 * pc).toFixed(2) + 'deg) translateZ(' + (8 * (1 - pc)).toFixed(2) + 'px)';
     front.style.zIndex = pc > 0.5 ? '0' : '100';
     pages.forEach(function (el, i) {

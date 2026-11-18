@@ -6424,11 +6424,14 @@ wix-bg-image{display:block}
 /* Resources: keep some space under the buttons when the section gets tight (around 1000px and 750px wide). */
 #comp-mgqdkk0e{padding-bottom:48px}
 </style><style>
-/* Phones: size the tour section to its content, and let event titles wrap instead of cutting off. */
+/* Phones: size the tour section to its content, let event titles wrap instead of cutting off, and tighten the alignment section. */
 @media screen and (min-width: 320px) and (max-width: 750px) {
 section#comp-mjl3k1zs { min-height: 0; }
 section#comp-mjl3k1zs .H4A4ou { white-space: normal; flex-wrap: wrap; }
 section#comp-mjl3k1zs .WFgzOI, section#comp-mjl3k1zs .noWi58 { overflow: visible; text-overflow: clip; }
+/* Alignment section: a shorter hands row (the hand images are mostly transparent above and below the arms) and less padding under it. */
+section#comp-m3sbwm3b .comp-m3sbwm3b-container { padding-bottom: 4%; grid-template-rows: minmax(max(0.5px, 0.4419492 * (var(--scaling-factor) - var(--scrollbar-width))),auto) minmax(max(0.5px, 0.4 * (var(--scaling-factor) - var(--scrollbar-width))),auto); }
+section#comp-m3sbwm3b #comp-m3sc0dzo img { object-position: 50% 70% !important; }
 }
 </style>
 </head>
@@ -6550,8 +6553,8 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
   var FX = [
     { id: 'comp-m3o2hd1n', from: [-400, 0, 1] },   // robot hand (desktop/tablet)
     { id: 'comp-m3o2hd20', from: [400, 0, 1] },    // human hand
-    { id: 'comp-m3sbwm5p1', from: [-200, 346, 1] }, // robot hand (mobile)
-    { id: 'comp-m3sbz23u', from: [335, 218, 1] },  // human hand (mobile; the phone layout shows this copy, not comp-m3sbwm682)
+    { id: 'comp-m3sbwm5p1', from: [-200, 80, 1], early: true }, // robot hand (mobile)
+    { id: 'comp-m3sbz23u', from: [335, 50, 1], early: true },  // human hand (mobile; the phone layout shows this copy, not comp-m3sbwm682)
     { id: 'comp-mgq9s63n', from: [0, 0, 0.3], corner: true }, // resource card media
     { id: 'comp-mgp6hedj', from: [0, 0, 0.3], corner: true }
   ].map(function (f) { f.el = document.getElementById(f.id); return f; }).filter(function (f) { return f.el; });
@@ -6570,7 +6573,8 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
       if (reduce.matches || (f.corner && phone.matches)) { el.style.transform = ''; return; } // resource images: no grow-on-scroll on phones
       var r = layoutTop(el);
       var total = vh + r.height;
-      var p = (vh - r.top) / (total * 0.5);
+      var p = f.early ? (vh * 1.25 - r.top) / (vh * 0.55) // phone hands: start as the section comes on screen, meet while it is all in view
+                      : (vh - r.top) / (total * 0.5);
       p = p < 0 ? 0 : p > 1 ? 1 : p;
       var k = 1 - p;
       var tx = f.from[0] * k, ty = f.from[1] * k, sc = 1 - (1 - f.from[2]) * k;
