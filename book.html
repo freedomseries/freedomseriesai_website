@@ -125,7 +125,7 @@ body{margin:0}
   var item = document.querySelector('.align>li'), front = document.querySelector('.hardcover_front');
   var pages = [].slice.call(document.querySelectorAll('.page>li'));
   var PAGE = [[-28, -30, 0], [-30, -35, 0], [-32, -118, 0.2], [-34, -130, 0.1]]; // closed, open, delay
-  var OPEN_SCALE = 0.88; // the open book's size relative to the closed one
+  var OPEN_SCALE = 0.96; // the open book's size relative to the closed one
   var els = [item, front].concat(pages);
   function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
   function ease(x) { return x * x * (3 - 2 * x); }
