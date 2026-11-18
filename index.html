@@ -6424,7 +6424,7 @@ wix-bg-image{display:block}
 /* Resources: keep some space under the buttons when the section gets tight (around 1000px and 750px wide). */
 #comp-mgqdkk0e{padding-bottom:48px}
 </style><style>
-/* Phones: size the tour section to its content, let event titles wrap instead of cutting off, and tighten the alignment section. */
+/* Phones: size the tour section to its content, let event titles wrap instead of cutting off, and tighten the book, guidebook and alignment sections. */
 @media screen and (min-width: 320px) and (max-width: 750px) {
 section#comp-mjl3k1zs { min-height: 0; }
 section#comp-mjl3k1zs .H4A4ou { white-space: normal; flex-wrap: wrap; }
@@ -6432,6 +6432,15 @@ section#comp-mjl3k1zs .WFgzOI, section#comp-mjl3k1zs .noWi58 { overflow: visible
 /* Alignment section: a shorter hands row (the hand images are mostly transparent above and below the arms) and less padding under it. */
 section#comp-m3sbwm3b .comp-m3sbwm3b-container { padding-bottom: 4%; grid-template-rows: minmax(max(0.5px, 0.4419492 * (var(--scaling-factor) - var(--scrollbar-width))),auto) minmax(max(0.5px, 0.4 * (var(--scaling-factor) - var(--scrollbar-width))),auto); }
 section#comp-m3sbwm3b #comp-m3sc0dzo img { object-position: 50% 70% !important; }
+/* Book and guidebook sections: no fixed minimum heights, so the text follows the book closely. */
+section#comp-m4ew8cwo { min-height: 0; }
+section#comp-m4ew8cwo .comp-m4ew8cwo-container { grid-template-rows: auto; }
+section#comp-m3se7gy1 { min-height: 0; }
+section#comp-m3se7gy1 .comp-m3se7gy1-container { padding-top: 24px; }
+/* ...which means the guidebook's second button (pinned to the section bottom by Wix) gets its own row under the first. */
+section#comp-m3se7gy1 .comp-m3se7gym-container { grid-template-rows: auto auto; row-gap: 31px; }
+section#comp-m3se7gy1 #comp-m3se7gyo { align-self: start; }
+section#comp-m3se7gy1 #comp-mj6t28x5 { grid-area: 2 / 1 / 3 / 2; align-self: start; }
 }
 </style>
 </head>
@@ -6553,11 +6562,11 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
   var FX = [
     { id: 'comp-m3o2hd1n', from: [-400, 0, 1] },   // robot hand (desktop/tablet)
     { id: 'comp-m3o2hd20', from: [400, 0, 1] },    // human hand
-    { id: 'comp-m3sbwm5p1', from: [-200, 80, 1], early: true }, // robot hand (mobile)
-    { id: 'comp-m3sbz23u', from: [335, 50, 1], early: true },  // human hand (mobile; the phone layout shows this copy, not comp-m3sbwm682)
+    { id: 'comp-m3sbwm5p1', from: [-200, 80, 1], late: true }, // robot hand (mobile)
+    { id: 'comp-m3sbz23u', from: [335, 50, 1], late: true },  // human hand (mobile; the phone layout shows this copy, not comp-m3sbwm682)
     { id: 'comp-mgq9s63n', from: [0, 0, 0.3], corner: true }, // resource card media
     { id: 'comp-mgp6hedj', from: [0, 0, 0.3], corner: true }
-  ].map(function (f) { f.el = document.getElementById(f.id); return f; }).filter(function (f) { return f.el; });
+  ].map(function (f) { f.el = document.getElementById(f.id); if (f.el && f.late) f.sec = f.el.closest('section'); return f; }).filter(function (f) { return f.el; });
 
   function layoutTop(el) { // position ignoring our own transform
     var t = el.style.transform; el.style.transform = 'none';
@@ -6573,8 +6582,11 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
       if (reduce.matches || (f.corner && phone.matches)) { el.style.transform = ''; return; } // resource images: no grow-on-scroll on phones
       var r = layoutTop(el);
       var total = vh + r.height;
-      var p = f.early ? (vh * 1.25 - r.top) / (vh * 0.55) // phone hands: start as the section comes on screen, meet while it is all in view
-                      : (vh - r.top) / (total * 0.5);
+      var p;
+      if (f.late) { // phone hands: start once the whole section is on screen, meet before its top leaves it
+        var sr = f.sec.getBoundingClientRect(), start = Math.max(vh - sr.height, vh * 0.4), end = vh * 0.1;
+        p = (start - sr.top) / (start - end);
+      } else p = (vh - r.top) / (total * 0.5);
       p = p < 0 ? 0 : p > 1 ? 1 : p;
       var k = 1 - p;
       var tx = f.from[0] * k, ty = f.from[1] * k, sc = 1 - (1 - f.from[2]) * k;
