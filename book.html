@@ -78,8 +78,8 @@ ul{margin:0;padding:0;list-style:none}
 /* Phone frames: centre the book and keep it closed (opened, the cover needs ~300px to its left). */
 @media (max-width:600px){
 body{margin:0}
-.align{margin:56px 0 0;justify-content:center}
-.align>li{width:360px;min-height:0;margin:0;padding:0;transform:translateX(-14px) scale(.84);transform-origin:top center}
+.align{margin:48px 0 0;justify-content:center}
+.align>li{width:360px;min-height:0;margin:0;padding:0;transform:translateX(-14px) scale(.76);transform-origin:top center}
 .book:hover>.hardcover_front{transform:rotateY(-34deg) translateZ(8px);z-index:100}
 .book:hover>.page li:nth-child(1){transform:rotateY(-28deg)}
 .book:hover>.page li:nth-child(2){transform:rotateY(-30deg)}
@@ -87,8 +87,8 @@ body{margin:0}
 .book:hover>.page li:nth-child(4){transform:rotateY(-34deg)}
 .book:hover>.page li:nth-child(5){transform:rotateY(-36deg)}
 }
-@media (max-width:395px){.align>li{transform:translateX(-14px) scale(.76)}}
-@media (max-width:359px){.align{margin-top:48px}.align>li{transform:translateX(-12px) scale(.68)}}
+@media (max-width:395px){.align>li{transform:translateX(-14px) scale(.7)}}
+@media (max-width:359px){.align>li{transform:translateX(-12px) scale(.62)}}
 </style></head>
 <body>
 <div class="rise_component">
@@ -137,9 +137,9 @@ body{margin:0}
     }
     var vh = par.innerHeight, top = host.getBoundingClientRect().top;
     var p = reduce.matches ? 0 : clamp((0.62 * vh - top) / (0.45 * vh));
-    var w = innerWidth, s0 = w > 395 ? 0.84 : w > 359 ? 0.76 : 0.68, s1 = Math.min(s0, (w - 24) / OPEN_W);
-    var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.5)), s = s0 + (s1 - s0) * ps; // shrink and slide before the cover swings out
-    item.style.transform = 'translate(' + (-14 + OPEN_SHIFT * s * ps).toFixed(1) + 'px,' + (250 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+    var w = innerWidth, s0 = w > 410 ? 0.8 : w > 395 ? 0.76 : w > 380 ? 0.72 : w > 359 ? 0.7 : 0.62, s1 = Math.min(s0, (w - 24) / OPEN_W);
+    var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.35)), s = s0 + (s1 - s0) * ps; // shrink toward the bottom (keeps the gap to the text) and slide, before the cover swings out
+    item.style.transform = 'translate(' + (-14 + OPEN_SHIFT * s * ps).toFixed(1) + 'px,' + (500 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
     front.style.transform = 'rotateY(' + (-34 - 111 * pc).toFixed(2) + 'deg) translateZ(' + (8 * (1 - pc)).toFixed(2) + 'px)';
     front.style.zIndex = pc > 0.5 ? '0' : '100';
     pages.forEach(function (el, i) {
