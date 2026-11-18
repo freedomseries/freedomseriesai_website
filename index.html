@@ -6507,6 +6507,7 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  var phone = matchMedia('(max-width: 750px)');
 
   /* When shown inside a frame (e.g. a preview), open links in a new tab instead of inside it. */
   var framed = false; try { framed = window.top !== window.self; } catch (e) { framed = true; }
@@ -6566,7 +6567,7 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
     FX.forEach(function (f) {
       var el = f.el;
       if (!el.offsetParent && getComputedStyle(el).position !== 'fixed') return;
-      if (reduce.matches) { el.style.transform = ''; return; }
+      if (reduce.matches || (f.corner && phone.matches)) { el.style.transform = ''; return; } // resource images: no grow-on-scroll on phones
       var r = layoutTop(el);
       var total = vh + r.height;
       var p = (vh - r.top) / (total * 0.5);

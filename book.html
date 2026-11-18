@@ -112,4 +112,47 @@ body{margin:0}
     </li>
   </ul>
 </div>
+<script>
+/* Phone frames: open the book as it scrolls through the screen (hover opens it on desktop),
+   shrinking it and sliding it right as it opens so the open cover stays in the frame. */
+(function () {
+  'use strict';
+  var host = window.frameElement, par = window.parent;
+  if (!host || par === window) return;
+  var narrow = matchMedia('(max-width:600px)'), reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  var item = document.querySelector('.align>li'), front = document.querySelector('.hardcover_front');
+  var pages = [].slice.call(document.querySelectorAll('.page>li'));
+  var PAGE = [[-28, -30, 0], [-30, -35, 0], [-32, -118, 0.2], [-34, -130, 0.1]]; // closed, open, delay
+  var OPEN_W = 790, OPEN_SHIFT = 189; // open book's width, and how far its middle sits left of the closed one's (at scale 1)
+  var els = [item, front].concat(pages);
+  function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+  function ease(x) { return x * x * (3 - 2 * x); }
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    if (!narrow.matches) {
+      els.forEach(function (el) { el.style.transform = ''; el.style.transition = ''; });
+      front.style.zIndex = '';
+      return;
+    }
+    var vh = par.innerHeight, top = host.getBoundingClientRect().top;
+    var p = reduce.matches ? 0 : clamp((0.62 * vh - top) / (0.45 * vh));
+    var w = innerWidth, s0 = w > 395 ? 0.84 : w > 359 ? 0.76 : 0.68, s1 = Math.min(s0, (w - 24) / OPEN_W);
+    var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.5)), s = s0 + (s1 - s0) * ps; // shrink and slide before the cover swings out
+    item.style.transform = 'translate(' + (-14 + OPEN_SHIFT * s * ps).toFixed(1) + 'px,' + (250 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+    front.style.transform = 'rotateY(' + (-34 - 111 * pc).toFixed(2) + 'deg) translateZ(' + (8 * (1 - pc)).toFixed(2) + 'px)';
+    front.style.zIndex = pc > 0.5 ? '0' : '100';
+    pages.forEach(function (el, i) {
+      var q = ease(clamp((p - PAGE[i][2]) / 0.8));
+      el.style.transform = 'rotateY(' + (PAGE[i][0] + (PAGE[i][1] - PAGE[i][0]) * q).toFixed(2) + 'deg)';
+    });
+    els.forEach(function (el) { el.style.transition = 'transform .1s linear'; });
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  par.addEventListener('scroll', req, { passive: true });
+  par.addEventListener('resize', req);
+  addEventListener('resize', req);
+  req();
+})();
+</script>
 </body></html>
