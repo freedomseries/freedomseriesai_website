@@ -1398,7 +1398,7 @@ body { background-color: var(--rt-design-background-color,var(--rt-design-backgr
 #comp-m4ew8czi { --brw: 0px; --brd: var(--color_15); --bg: 255,255,255; --rd: 0px; --shd: none; --gradient: none; --alpha-brd: 0; --alpha-bg: 0; --boxShadowToggleOn-shd: none; --static-spx: 0.1 * var(--one-unit); --bg-gradient: none; }
 #comp-m4ew8czt { min-height: 0px; --l_display: unset; height: 840.633px; min-width: 0px; width: 1077.09px; max-width: 99999px; max-height: 99999px; --aspect-ratio: auto; aspect-ratio: 1/var(--aspect-ratio); --comp-display: unset; display: var(--l_display,var(--display,block)); place-self: start end; pointer-events: auto; margin-left: 0px; margin-right: 0px; margin-top: min(-0.5px, -0.0329834 * (var(--scaling-factor) - var(--scrollbar-width))); margin-bottom: 0px; grid-area: 1 / 1 / 2 / 2; position: relative; }
 @media screen and (min-width: 320px) and (max-width: 750px) {
-#comp-m4ew8czt { min-height: unset; height: auto; --aspect-ratio: 1.3; width: 103.077%; margin-right: min(-0.5px, -0.0307692 * (var(--scaling-factor) - var(--scrollbar-width))); margin-top: min(-0.5px, -0.0845753 * (var(--scaling-factor) - var(--scrollbar-width))); }
+#comp-m4ew8czt { min-height: unset; height: auto; --aspect-ratio: 1.23; width: 103.077%; margin-right: min(-0.5px, -0.0307692 * (var(--scaling-factor) - var(--scrollbar-width))); margin-top: min(-0.5px, -0.0845753 * (var(--scaling-factor) - var(--scrollbar-width))); }
 }
 #comp-m4ew8czt { --static-spx: 0.1 * var(--one-unit); }
 #comp-m4i3ojfi { min-height: 811.211px; --comp-display: grid; grid-template-rows: 1fr; grid-template-columns: minmax(0px, 1fr); --l_display: none; height: auto; min-width: 0px; max-width: 99999px; max-height: 99999px; --section-max-width: 99999999999px; --full-viewport: 100 * var(--one-unit) * var(--browser-zoom); --scaling-factor: clamp(var(--spx-stopper-min), var(--full-viewport), min(var(--spx-stopper-max), var(--section-max-width))); display: var(--l_display,var(--comp-display,flex)); flex-direction: column; place-self: stretch; pointer-events: auto; grid-area: 9 / 1 / 10 / 2; position: relative; }
@@ -6424,6 +6424,8 @@ wix-bg-image{display:block}
 /* Resources: keep some space under the buttons when the section gets tight (around 1000px and 750px wide). */
 #comp-mgqdkk0e{padding-bottom:48px}
 </style><style>
+html { background-color: #10162a; } /* past the page ends (overscroll, the address bar sliding away): the footer's navy, not white */
+#SITE_CONTAINER { background-color: #fff; } /* the page itself stays white (body is only screen-tall here) */
 /* Phones: size the tour section to its content, let event titles wrap instead of cutting off, and tighten the book, guidebook and alignment sections. */
 @media screen and (min-width: 320px) and (max-width: 750px) {
 section#comp-mjl3k1zs { min-height: 0; }
@@ -6436,7 +6438,7 @@ section#comp-m3sbwm3b #comp-m3sc0dzo img { object-position: 50% 70% !important; 
 section#comp-m4ew8cwo { min-height: 0; }
 section#comp-m4ew8cwo .comp-m4ew8cwo-container { grid-template-rows: auto; }
 section#comp-m3se7gy1 { min-height: 0; }
-section#comp-m3se7gy1 .comp-m3se7gy1-container { padding-top: 24px; }
+section#comp-m3se7gy1 .comp-m3se7gy1-container { padding-top: 12px; }
 /* ...which means the guidebook's second button (pinned to the section bottom by Wix) gets its own row under the first. */
 section#comp-m3se7gy1 .comp-m3se7gym-container { grid-template-rows: auto auto; row-gap: 31px; }
 section#comp-m3se7gy1 #comp-m3se7gyo { align-self: start; }

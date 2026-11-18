@@ -142,7 +142,8 @@ body{margin:0}
     var w = innerWidth, s0 = w > 410 ? 0.8 : w > 395 ? 0.76 : w > 380 ? 0.72 : w > 359 ? 0.7 : 0.62, vw = par.innerWidth, s1 = s0 * OPEN_SCALE;
     var pc = ease(clamp(p / 0.8)), ps = ease(clamp(p / 0.35)), s = s0 + (s1 - s0) * ps; // shrink (toward the bottom, keeping the gap to the text) and slide, before the cover swings out
     var tx = -14 * (1 - ps) + (vw / 2 - w / 2 + 130 * s) * ps; // closed: optically centred; open: the two text pages centred on screen (the book sits 40px into its item)
-    item.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + (500 * (s0 - s)).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+    var lift = 26 * s0 * Math.sin(Math.PI * pc); // mid-swing the cover points at the viewer and the book reaches lower: lift it then, so the frame can hug the closed book
+    item.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + (500 * (s0 - s) - lift).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
     front.style.transform = 'rotateY(' + (-34 - 111 * pc).toFixed(2) + 'deg) translateZ(' + (8 * (1 - pc)).toFixed(2) + 'px)';
     front.style.zIndex = pc > 0.5 ? '0' : '100';
     pages.forEach(function (el, i) {
