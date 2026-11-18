@@ -6424,6 +6424,10 @@ wix-bg-image{display:block}
 /* Resources: keep some space under the buttons when the section gets tight (around 1000px and 750px wide). */
 #comp-mgqdkk0e{padding-bottom:48px}
 </style><style>
+/* Tablets: the alignment section's human hand fingertip level with the robot's (within ~5px over 751-1000px). */
+@media screen and (min-width: 751px) and (max-width: 1000px) {
+section#comp-m3sbwm3b #comp-m3sbwm6c1 img { object-position: 50% 89% !important; }
+}
 html { background-color: #000; } /* past the page ends (overscroll, the address bar sliding away): black like the footer, not white */
 #SITE_CONTAINER { background-color: #fff; } /* the page itself stays white (body is only screen-tall here) */
 /* Phones: size the tour section to its content, let event titles wrap instead of cutting off, and tighten the book, guidebook and alignment sections. */
@@ -6567,7 +6571,8 @@ In The Age of AGI</span></h2></div><!--/$--><!--$--><div class="N8MGzv _v6ohL AW
     { id: 'comp-m3o2hd1n', from: [-400, 0, 1] },   // robot hand (desktop/tablet)
     { id: 'comp-m3o2hd20', from: [400, 0, 1] },    // human hand
     { id: 'comp-m3sbwm5p1', from: [-200, 80, 1], late: true }, // robot hand (mobile)
-    { id: 'comp-m3sbz23u', from: [335, 50, 1], late: true },  // human hand (mobile; the phone layout shows this copy, not comp-m3sbwm682)
+    { id: 'comp-m3sbz23u', from: [335, 50, 1], late: true },  // human hand (phones show this copy)
+    { id: 'comp-m3sbwm682', from: [335, 50, 1], late: true }, // human hand (tablets show this copy)
     { id: 'comp-mgq9s63n', from: [0, 0, 0.3], corner: true }, // resource card media
     { id: 'comp-mgp6hedj', from: [0, 0, 0.3], corner: true }
   ].map(function (f) { f.el = document.getElementById(f.id); if (f.el && f.late) f.sec = f.el.closest('section'); return f; }).filter(function (f) { return f.el; });
